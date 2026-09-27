@@ -1,7 +1,8 @@
 document.writeln("		<nav>");
 document.writeln("    		<ul>");
 document.writeln("        		<li><a href=\"index.html\">Home</a></li>");
-document.writeln("        		<li><a href=\"scholar.html\">scholar</a></li>");
+document.writeln("        		<li><a href=\"scholar.html\">Scholar</a></li>");
+document.writeln("        		<li><a href=\"../cv/Lianghong_Mo_CV.pdf\" target=\"_blank\">CV</a></li>");
 // document.writeln("        		<li><a href=\"teaching.html\">Teaching</a></li>");
 // document.writeln("        		<li><a href=\"doc.html\">Documents</a></li>");
 // document.writeln("        		<li><a href=\"starcharts.html\">Star Charts</a></li>");
