@@ -1,4 +1,216 @@
 <!DOCTYPE html>
-<html>
-	<body onload="location.href='en/index.html'" />
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Lianghong Mo — Reinforcement Learning, Princeton</title>
+	<meta name="description" content="Lianghong Mo is a Ph.D. candidate in physics at Princeton University working on reinforcement learning, RL fine-tuning of generative models, and sequence models for physical dynamics.">
+	<meta name="author" content="Lianghong Mo">
+	<meta property="og:type" content="profile">
+	<meta property="og:title" content="Lianghong Mo — Reinforcement Learning, Princeton">
+	<meta property="og:description" content="Ph.D. candidate in physics at Princeton University. Reinforcement learning, generative models, many-body physics. Seeking ML/RL research internships for Summer 2027.">
+	<meta property="og:url" content="https://lianghongmo.github.io/">
+	<meta property="og:image" content="https://lianghongmo.github.io/img/RB.jpg">
+	<link rel="canonical" href="https://lianghongmo.github.io/">
+	<link rel="icon" href="img/RB.ico">
+	<link rel="stylesheet" href="css/style.css">
+	<script type="application/ld+json">
+	{
+	  "@context": "https://schema.org",
+	  "@type": "Person",
+	  "name": "Lianghong Mo",
+	  "url": "https://lianghongmo.github.io/",
+	  "email": "mailto:lm8598@princeton.edu",
+	  "jobTitle": "Ph.D. Candidate in Physics",
+	  "affiliation": {"@type": "CollegeOrUniversity", "name": "Princeton University"},
+	  "alumniOf": {"@type": "CollegeOrUniversity", "name": "Sun Yat-sen University"},
+	  "knowsAbout": ["Reinforcement learning", "Generative models", "Diffusion models", "State-space models", "Quantum many-body physics"],
+	  "sameAs": [
+	    "https://scholar.google.com/citations?user=fdXlP44AAAAJ",
+	    "https://github.com/LianghongMo"
+	  ]
+	}
+	</script>
+</head>
+<body>
+<a class="skip" href="#research">Skip to research</a>
+
+<header class="hero" id="top">
+	<img class="avatar" src="img/RB.jpg" alt="" width="128" height="128">
+	<div class="hero-text">
+		<h1>Lianghong Mo</h1>
+		<p class="role">Ph.D. Candidate in Physics, <a href="https://phy.princeton.edu/" target="_blank" rel="noopener">Princeton University</a></p>
+		<p class="tagline">Reinforcement learning &middot; RL fine-tuning of generative models &middot; sequence models for physical dynamics</p>
+		<p class="status">Seeking ML / RL research internships for Summer 2027</p>
+		<nav class="links" aria-label="Contact and profiles">
+			<a href="mailto:lm8598@princeton.edu">lm8598@princeton.edu</a>
+			<a href="cv/Lianghong_Mo_CV.pdf" target="_blank" rel="noopener">CV</a>
+			<a href="https://scholar.google.com/citations?user=fdXlP44AAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+			<a href="https://github.com/LianghongMo" target="_blank" rel="noopener">GitHub</a>
+		</nav>
+	</div>
+</header>
+
+<nav class="toc" aria-label="Sections">
+	<a href="#about">About</a>
+	<a href="#research">Research</a>
+	<a href="#publications">Publications</a>
+	<a href="#news">News</a>
+	<a href="#talks">Talks &amp; Notes</a>
+	<a href="#background">Background</a>
+</nav>
+
+<main>
+
+<section id="about">
+	<h2>About</h2>
+	<p>I am a Ph.D. candidate in physics at Princeton University working on reinforcement learning. My research asks how agents can learn the structure they need &mdash; representations, goals, and credit assignment &mdash; directly from experience, in long-horizon problems with partial observation and competing objectives, rather than from fully specified rewards.</p>
+	<p>Currently I am scaling contrastive (goal-conditioned) RL with <a href="https://ben-eysenbach.github.io/" target="_blank" rel="noopener">Benjamin Eysenbach</a>'s group, and developing diversity-aware credit assignment for RL fine-tuning of diffusion models, which improves both reward and sample diversity over DDPO. I also build sequence models with long memory for physical dynamics, such as a Mamba correction branch on a frozen GraphCast that cuts ten-day forecast error by 16%.</p>
+	<p>Before turning to machine learning I worked on quantum many-body dynamics &mdash; driven conformal field theories, non-Hermitian systems, entanglement structure &mdash; with seven preprints, five as first or co-first author. That background is where my interest in long-horizon control under partial observation comes from.</p>
+</section>
+
+<section id="research">
+	<h2>Research</h2>
+
+	<article class="project">
+		<h3>Scaling Contrastive Reinforcement Learning</h3>
+		<p class="meta">Aug. 2026 &ndash; present &middot; with Prof. Benjamin Eysenbach and Caleb Cheuk, Princeton</p>
+		<p>Goal-conditioned RL without hand-designed rewards: the critic is learned as a similarity score between representations of state&ndash;action pairs and future goals (InfoNCE), replacing TD bootstrapping with self-supervised representation learning. Ongoing work on scaling this recipe up.</p>
+		<ul class="tags"><li>goal-conditioned RL</li><li>self-supervised RL</li><li>representation learning</li><li>long-horizon control</li></ul>
+	</article>
+
+	<article class="project">
+		<h3>Diversity-Aware Step Weighting for RL Fine-Tuning of Diffusion Models</h3>
+		<p class="meta">Apr. 2026 &ndash; present &middot; <a href="https://github.com/LianghongMo/ddpo-asw" target="_blank" rel="noopener">code</a></p>
+		<p>RL fine-tuning of a pretrained generative model against a learned reward collapses diversity and invites reward hacking. This is not an optimizer bug: it is the fixed point of the reward objective, and KL regularization tilts it but does not remove it, so the reward&ndash;diversity <em>Pareto frontier</em> is the right target. DASW replaces DDPO's uniform per-step weight in the policy-gradient loss with a budget-conserving weight toward the denoising steps where generations still branch, measured by the feature-space spread of predicted clean images, with no diversity reward or occupancy penalty.</p>
+		<p class="result">Result: against DDPO and reward-variance, scheduler-only, and CoCA-style baselines (Stable Diffusion v1.4 + LoRA, 3 seeds), DASW-Inception raises both LAION aesthetic reward and ImageReward while holding diversity (Vendi score), with less reward hacking; on prompt&ndash;image alignment, DASW variants occupy stronger Pareto-efficient regions.</p>
+		<ul class="tags"><li>policy optimization</li><li>credit assignment</li><li>diffusion models</li><li>reward hacking</li><li>post-training</li></ul>
+	</article>
+
+	<article class="project">
+		<h3>Non-Markovian Corrections to Pretrained Weather Models</h3>
+		<p class="meta">Apr. &ndash; Aug. 2026 &middot; with Prof. Dmitry Abanin, Princeton</p>
+		<p>Leading neural weather forecasters predict from a short window of recent states, a Markovian approximation in the input representation; coarse-graining induces history dependence, motivating a correction with memory. I augmented a frozen pretrained GraphCast with a trainable correction branch &mdash; graph message passing plus Mamba layers whose latent state persists across autoregressive steps &mdash; training only the branch.</p>
+		<p class="result">Result: at 1&deg; resolution, normalized weighted MSE falls by 16.3% over ten-day forecasts and 23.7% at day ten; state-reset ablations show the temporal memory contributes beyond the added capacity.</p>
+		<ul class="tags"><li>state-space models</li><li>Mamba</li><li>graph neural networks</li><li>scientific ML</li></ul>
+	</article>
+
+	<article class="project">
+		<h3>Cooling Algorithms for Ground-State Preparation</h3>
+		<p class="meta">Mar. 2025 &ndash; present &middot; with Prof. Biao Lian and Prof. Dmitry Abanin, Princeton</p>
+		<p>Cooling-protocol design cast as an optimal control problem trading fidelity against mixing time. Shaping the system&ndash;ancilla coupling via van Hove singularities reaches the Pareto frontier and beats prior protocols on gapless free-fermion, topological, and interacting systems. An adaptive particle-number extension is a partially observed sequential decision problem: each cycle's measurement sets the next chemical-potential correction.</p>
+		<ul class="tags"><li>optimal control</li><li>partially observed decision making</li><li>quantum many-body</li></ul>
+	</article>
+</section>
+
+<section id="publications">
+	<h2>Publications and Preprints</h2>
+	<p class="note">* equal contribution. Full list on <a href="https://scholar.google.com/citations?user=fdXlP44AAAAJ" target="_blank" rel="noopener">Google Scholar</a>.</p>
+	<ol class="pubs" reversed>
+		<li><span class="authors"><b>Lianghong Mo</b>, Bastien Lapierre, Qiang Miao.</span>
+			<span class="title">Observing conformal Floquet dynamics on a digital quantum processor.</span>
+			<span class="venue">arXiv 2026.</span>
+			<span class="pub-links"><a href="https://arxiv.org/abs/2605.27530" target="_blank" rel="noopener">arXiv:2605.27530</a></span></li>
+		<li><span class="authors">Xin-Chi Zhou*, <b>Lianghong Mo</b>*, Hongzheng Zhao, Bastien Lapierre.</span>
+			<span class="title">Emergent self-similar quantum revivals in spiral drives.</span>
+			<span class="venue">arXiv 2026.</span>
+			<span class="pub-links"><a href="https://arxiv.org/abs/2606.05288" target="_blank" rel="noopener">arXiv:2606.05288</a></span></li>
+		<li><span class="authors">Chen Bai, Xinyu Sun, <b>Lianghong Mo</b>, Hong-Hao Tu.</span>
+			<span class="title">Extracting central charge from ground-state overlaps of spatially deformed Hamiltonians.</span>
+			<span class="venue">arXiv 2026.</span>
+			<span class="pub-links"><a href="https://arxiv.org/abs/2606.00214" target="_blank" rel="noopener">arXiv:2606.00214</a></span></li>
+		<li><span class="authors">Bastien Lapierre, <b>Lianghong Mo</b>, Shinsei Ryu.</span>
+			<span class="title">Entanglement transitions in structured and random nonunitary Gaussian circuits.</span>
+			<span class="venue">arXiv 2025.</span>
+			<span class="pub-links"><a href="https://arxiv.org/abs/2507.03768" target="_blank" rel="noopener">arXiv:2507.03768</a></span></li>
+		<li><span class="authors"><b>Lianghong Mo</b>, Roderich Moessner, Hongzheng Zhao.</span>
+			<span class="title">Complex and tunable heating in conformal field theories with structured drives via classical ergodicity breaking.</span>
+			<span class="venue">arXiv 2025.</span>
+			<span class="pub-links"><a href="https://arxiv.org/abs/2505.21712" target="_blank" rel="noopener">arXiv:2505.21712</a></span></li>
+		<li><span class="authors"><b>Lianghong Mo</b>, Zhenyu Xiao, Roderich Moessner, Hongzheng Zhao.</span>
+			<span class="title">Non-Hermitian delocalization in 1D via emergent compactness.</span>
+			<span class="venue">Phys. Rev. B 111, 235412 (2025).</span>
+			<span class="pub-links"><a href="https://journals.aps.org/prb/abstract/10.1103/PhysRevB.111.235412" target="_blank" rel="noopener">journal</a> <a href="https://arxiv.org/abs/2412.12490" target="_blank" rel="noopener">arXiv:2412.12490</a></span></li>
+		<li><span class="authors"><b>Lianghong Mo</b>, Yao Zhou, Jia-Rui Sun, Peng Ye.</span>
+			<span class="title">Hyperfine structure of quantum entanglement.</span>
+			<span class="venue">arXiv 2023.</span>
+			<span class="pub-links"><a href="https://arxiv.org/abs/2311.01997" target="_blank" rel="noopener">arXiv:2311.01997</a></span></li>
+	</ol>
+</section>
+
+<section id="news">
+	<h2>News</h2>
+	<dl class="news">
+		<dt>Aug. 2026</dt><dd>Started working with Benjamin Eysenbach's group on scaling contrastive RL.</dd>
+		<dt>Jun. 2026</dt><dd>Three new preprints on driven and Floquet quantum dynamics: <a href="https://arxiv.org/abs/2605.27530" target="_blank" rel="noopener">2605.27530</a>, <a href="https://arxiv.org/abs/2606.00214" target="_blank" rel="noopener">2606.00214</a>, <a href="https://arxiv.org/abs/2606.05288" target="_blank" rel="noopener">2606.05288</a>.</dd>
+		<dt>Mar. 2026</dt><dd>Talk on cooling algorithms for ground-state preparation at the APS Global Physics Summit, Denver.</dd>
+		<dt>Jan. 2026</dt><dd>M.A. in Physics, Princeton University.</dd>
+		<dt>2025</dt><dd>&ldquo;Non-Hermitian delocalization in 1D via emergent compactness&rdquo; published in <em>Phys. Rev. B</em>.</dd>
+		<dt>Mar. 2025</dt><dd>Talk on heating in driven conformal field theories at the APS Global Physics Summit, Anaheim.</dd>
+		<dt>Sept. 2024</dt><dd>Started the Ph.D. in Physics at Princeton; Joseph Henry Merit Award.</dd>
+	</dl>
+</section>
+
+<section id="talks">
+	<h2>Talks and Notes</h2>
+	<h3 class="sub">Conference talks</h3>
+	<ul>
+		<li>Cooling algorithms for ground-state preparation. APS Global Physics Summit, Denver, CO, March 2026.</li>
+		<li>Complex and tunable heating in driven conformal field theories. APS Global Physics Summit, Anaheim, CA, March 2025.</li>
+	</ul>
+	<details>
+		<summary>Seminar talks, lecture notes, and course papers (undergraduate, Sun Yat-sen University)</summary>
+		<ul>
+			<li><a href="scholarpdf/Hamiltonian Simulation20241011.pdf" target="_blank" rel="noopener">Hamiltonian simulation</a> (talk)</li>
+			<li><a href="scholarpdf/Knot_Theory_And_TQFT By L.H.Mo.pdf" target="_blank" rel="noopener">Knot theory and TQFT</a> (talk)</li>
+			<li><a href="scholarpdf/Quantum Hall Effect.pdf" target="_blank" rel="noopener">Review of the quantum Hall effect</a> (talk)</li>
+			<li><a href="scholarpdf/branched_flow.pdf" target="_blank" rel="noopener">Branched flow</a> (talk)</li>
+			<li><a href="scholarpdf/Axion_ELTD.pdf" target="_blank" rel="noopener">Axion electrodynamics</a> (talk)</li>
+			<li><a href="scholarpdf/Note_of_knot.pdf" target="_blank" rel="noopener">Notes on knot theory</a></li>
+			<li><a href="scholarpdf/Note_of_Chern_simons (1).pdf" target="_blank" rel="noopener">Notes on Chern&ndash;Simons theory</a></li>
+			<li><a href="scholarpdf/Note_of__Entanglement_TBC_.pdf" target="_blank" rel="noopener">Notes on entanglement</a></li>
+			<li><a href="scholarpdf/RSB.pdf" target="_blank" rel="noopener">A brief introduction to replica symmetry breaking</a> (course paper)</li>
+		</ul>
+	</details>
+</section>
+
+<section id="background">
+	<h2>Background</h2>
+	<div class="cols">
+		<div>
+			<h3 class="sub">Education</h3>
+			<ul>
+				<li><b>Ph.D. in Physics</b>, Princeton University, 2024 &ndash; present. M.A. 2026. Coursework: Reinforcement Learning (COS 435), Quantum Computation and Quantum Information (PHY 506), Introduction to Machine Learning.</li>
+				<li><b>B.S. in Physics</b>, Sun Yat-sen University, 2019 &ndash; 2024. GPA 4.0/4.0, ranked 1st of 79.</li>
+				<li><b>Research intern</b>, Max Planck Institute for the Physics of Complex Systems, Dresden, summer 2023.</li>
+			</ul>
+			<h3 class="sub">Teaching</h3>
+			<ul>
+				<li>Teaching Assistant, Princeton: PHY 103 General Physics I, MAT 201 Multivariable Calculus, MAT 330 Complex Analysis.</li>
+			</ul>
+		</div>
+		<div>
+			<h3 class="sub">Honors</h3>
+			<ul>
+				<li>Joseph Henry Merit Award, Princeton University, 2024.</li>
+				<li>National Scholarship (Ministry of Education, China); First Prize Scholarship, SYSU, 2020 &ndash; 2023.</li>
+				<li>First Prize, Mathematics Competition of Chinese College Students.</li>
+			</ul>
+			<h3 class="sub">Skills</h3>
+			<ul>
+				<li><b>RL / ML:</b> goal-conditioned and contrastive RL, policy-gradient and PPO-style methods, KL-regularized fine-tuning, diffusion and flow-matching models, LoRA, state-space models (Mamba), graph neural networks.</li>
+				<li><b>Code:</b> Python (PyTorch, JAX), C, Mathematica, MATLAB; multi-seed experiment pipelines on SLURM GPU clusters.</li>
+				<li><b>Physics computing:</b> tensor networks, exact diagonalization, Krylov methods; open quantum systems, CFT, quantum error correction.</li>
+			</ul>
+		</div>
+	</div>
+</section>
+
+</main>
+
+<footer>
+	<p>Lianghong Mo &middot; <a href="mailto:lm8598@princeton.edu">lm8598@princeton.edu</a> &middot; <a href="cv/Lianghong_Mo_CV.pdf" target="_blank" rel="noopener">CV (PDF)</a> &middot; <a href="https://github.com/LianghongMo/LianghongMo.github.io" target="_blank" rel="noopener">source</a></p>
+	<p class="note">Last updated September 2026.</p>
+</footer>
+</body>
 </html>
