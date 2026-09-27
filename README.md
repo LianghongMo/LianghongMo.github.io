@@ -1,6 +1,6 @@
 # lianghongmo.github.io
 
-Personal website of Lianghong Mo, served by GitHub Pages.
+Personal website of Liang-Hong Mo, served by GitHub Pages.
 
 - `index.html` — the whole site (single page). Edit text here.
 - `css/style.css` — the only stylesheet; colours are CSS variables at the top, with a dark-mode block.
